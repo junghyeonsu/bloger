@@ -5,7 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "chrome-install": "node node_modules/puppeteer/install.mjs",
-    "scrap": "ts-node scrap.ts"
+    "scrap": "ts-node scrap.ts",
+    "upload": "ts-node upload.ts"
   },
   "devDependencies": {
     "@types/node": "^20.7.1",

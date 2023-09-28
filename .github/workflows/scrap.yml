@@ -1,0 +1,52 @@
+name: Run Node.js Script and Create PR
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run_script_and_create_pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run Node.js script and get result filename
+        id: run_script
+        run: |
+          # Navigate to the 'packages/scrapper' directory
+          cd packages/scrapper
+
+          # Generate a date-based filename (e.g., result-2023-09-28.txt)
+          result_filename="result-$(date +\%Y-\%m-\%d).txt"
+          ts-node upload.ts "$result_filename" # Pass the filename as an argument
+        shell: bash
+
+      - name: Upload result as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: result
+          path: packages/scrapper/${{ steps.run_script.outputs.result_filename }}
+
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Add result file"
+          title: "Add result file"
+          body: "Add result file"
+          branch: "add-result-file"
+          branch-suffix: timestamp
+          base: "main"
+          signoff: false
+          delete-branch: true
