@@ -40,6 +40,18 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Install Chrome browser
+        run: |
+          cd packages/scrapper
+          pnpm chrome-install
+
+      - uses: actions/cache@v3
+        with:
+          path: packages/scrapper/.cache
+          key: ${{ runner.os }}-cache-${{ hashFiles('**/packages/scrapper/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-cache-
+
       - name: Run Node.js script and get result filename
         id: run_script
         run: |
