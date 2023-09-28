@@ -5,12 +5,4 @@
 
 .nyc_output/
 
-.pnp.*
-.yarn/install-state.gz
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
-
 **/node_modules/
