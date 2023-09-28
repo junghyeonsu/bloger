@@ -64,6 +64,7 @@ jobs:
 
           # Generate a date-based filename (e.g., result-2023-09-28.txt)
           result_filename="result-$(date +\%Y-\%m-\%d).txt"
+          echo "result_filename=$result_filename" >> $GITHUB_ENV
           pnpm ts-node upload.ts "$result_filename" # Pass the filename as an argument
         shell: bash
 
