@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   run_script_and_create_pr:
     runs-on: ubuntu-latest
