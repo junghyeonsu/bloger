@@ -1,0 +1,10 @@
+{
+  "name": "bloger",
+  "private": true,
+  "author": "junghyeonsu",
+  "devDependencies": {
+    "@biomejs/biome": "^1.2.2",
+    "typescript": "^5.2.2",
+    "ultra-runner": "^3.10.5"
+  }
+}
