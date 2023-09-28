@@ -64,7 +64,8 @@ jobs:
         shell: bash
 
       - name: Upload result as artifact
-        uses: actions/upload-artifact@v2
+        if-no-files-found: success
+        uses: actions/upload-artifact@v3
         with:
           name: result
           path: packages/scrapper/${{ steps.run_script.outputs.result_filename }}
