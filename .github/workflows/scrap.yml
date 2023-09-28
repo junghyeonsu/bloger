@@ -64,7 +64,7 @@ jobs:
         shell: bash
 
       - name: Upload result as artifact
-        if-no-files-found: success
+        if: steps.run_script.outputs.result_filename != ''
         uses: actions/upload-artifact@v3
         with:
           name: result
