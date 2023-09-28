@@ -48,7 +48,7 @@ jobs:
 
           # Generate a date-based filename (e.g., result-2023-09-28.txt)
           result_filename="result-$(date +\%Y-\%m-\%d).txt"
-          ts-node upload.ts "$result_filename" # Pass the filename as an argument
+          pnpm ts-node upload.ts "$result_filename" # Pass the filename as an argument
         shell: bash
 
       - name: Upload result as artifact
