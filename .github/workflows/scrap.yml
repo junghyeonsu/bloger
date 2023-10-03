@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+  # schedule:
+  #   - cron: 0 23 * * *
 
 permissions:
   contents: write
@@ -62,8 +64,8 @@ jobs:
           # Navigate to the 'packages/scrapper' directory
           cd packages/scrapper
 
-          # Generate a date-based filename (e.g., result-2023-09-28.txt)
-          result_filename="result-$(date +\%Y-\%m-\%d).txt"
+          # Generate a date-based filename (e.g., 2023-09-28-네이버경제헤드라인요약.json)
+          result_filename="$(date +\%Y-\%m-\%d)-네이버경제헤드라인요약.json"
           echo "result_filename=$result_filename" >> $GITHUB_ENV
           pnpm ts-node upload.ts "$result_filename" # Pass the filename as an argument
         shell: bash
@@ -79,10 +81,10 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "Add result file"
-          title: "Add result file"
-          body: "Add result file"
-          branch: "add-result-file"
+          commit-message: "스크랩 및 요약 파일 추가"
+          title: "스크랩 및 요약 파일 추가"
+          body: "스크랩 및 요약 파일 추가"
+          branch: "scrap-and-summarize"
           branch-suffix: timestamp
           base: "main"
           signoff: false
