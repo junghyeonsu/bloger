@@ -5,5 +5,10 @@ const resultFilename = process.argv[2]; // Get the filename from the command lin
 
 (async () => {
   const result = await getHeadlineNewsTextContents();
-  fs.writeFileSync(resultFilename, JSON.parse(result.toString()));
+
+  const content = {
+    naverEconomy: result,
+  };
+
+  fs.writeFileSync(resultFilename, JSON.stringify(content));
 })();
