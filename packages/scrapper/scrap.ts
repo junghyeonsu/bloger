@@ -60,5 +60,5 @@ export const getHeadlineNewsTextContents = async () => {
 
   await browser.close();
 
-  return { contents: headlineNewsContents as HeadlineNewsContent[] };
+  return headlineNewsContents as HeadlineNewsContent[];
 };
