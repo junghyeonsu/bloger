@@ -4,7 +4,7 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "upload": "node --loader ts-node/esm ./src/index.ts"
+    "upload": "pnpm tsx ./src/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +19,7 @@
     "@bloger/summarizer": "workspace:^0.0.0",
     "dedent": "^1.5.1",
     "dotenv": "^16.3.1",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "tsx": "^3.13.0"
   }
 }
