@@ -23,13 +23,13 @@ const Summarizer = new SummarizeClient({
 const generateSummaryTemplate = async (news: HeadlineNewsContent): Promise<string> => {
   const { title, link, corp, content, summary } = news;
 
-  const summarizedContent = await Summarizer.summarizeNews({ content, summary });
+  const summarizedContent = await Summarizer.summarizeNews({ content });
 
   return dedent(`
     ${title} - ${corp}${summary ? `\n✔ ${summary}` : ""}
     
     ${summarizedContent}
-    ${link ? `- ${link}` : ""}
+    ${link ? `- 뉴스 원본 보러가기: ${link}` : ""}
   `);
 };
 
@@ -49,7 +49,7 @@ async function main() {
   const summarizedContent = dedent`
     ${new Date().toLocaleString()} 기준 네이버 경제 뉴스 요약본입니다.
 
-    ${summaries.join("\n\n")}
+    ${summaries.map((summary) => JSON.stringify(summary)).join("\n\n")}
   `;
 
   fs.writeFileSync(`${resultFilename}-summarized.txt`, summarizedContent);
