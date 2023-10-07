@@ -19,11 +19,11 @@ const baseConfig = {
 Promise.all([
   build({
     ...baseConfig,
-    format: "cjs",
+    format: "esm",
   }),
   build({
     ...baseConfig,
-    format: "esm",
+    format: "cjs",
     outExtension: {
       ".js": ".mjs",
     },

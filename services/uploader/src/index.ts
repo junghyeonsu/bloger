@@ -45,7 +45,7 @@ async function main() {
   console.log("스크랩 완료");
 
   /* 요약 */
-  const summaries = await Promise.allSettled(naverEconomyHeadlineNews.map(generateSummaryTemplate));
+  const summaries = await Promise.all(naverEconomyHeadlineNews.map(generateSummaryTemplate));
   const summarizedContent = dedent`
     ${new Date().toLocaleString()} 기준 네이버 경제 뉴스 요약본입니다.
 
