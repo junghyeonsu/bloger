@@ -1,11 +1,11 @@
 name: Run Node.js Script and Create PR
 
 on:
-  # push:
-    # branches:
-    #   - main
-  schedule:
-    - cron: 0 23 * * *
+  push:
+    branches:
+      - main
+  # schedule:
+  #   - cron: 0 23 * * *
 
 permissions:
   contents: write
@@ -61,31 +61,33 @@ jobs:
       - name: Run Node.js script and get result filename
         id: run_script
         run: |
-          # Navigate to the 'packages/scrapper' directory
-          cd packages/scrapper
+          # Navigate to the 'services/uploader' directory
+          cd services/uploader
 
-          # Generate a date-based filename (e.g., 2023-09-28-네이버경제헤드라인요약.json)
-          result_filename="$(date +\%Y-\%m-\%d)-네이버경제헤드라인요약.json"
-          echo "result_filename=$result_filename" >> $GITHUB_ENV
-          pnpm ts-node upload.ts "$result_filename" # Pass the filename as an argument
+          # Generate a date-based filename (e.g., 2023-09-28-경제스크랩)
+          current_date="$(date +\%Y-\%m-\%d)"
+
+          # Pass the variables as an output
+          echo "current_date=$current_date" >> $GITHUB_ENV
+
+          pnpm upload "$current_date" # Pass the filename as an argument
         shell: bash
 
-      - name: Upload result as artifact
-        if: steps.run_script.outputs.result_filename != ''
+      - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: result
-          path: packages/scrapper/${{ steps.run_script.outputs.result_filename }}
+          name: ${{ steps.run_script.outputs.current_date }} 경제스크랩 JSON 파일 업로드
+          path: content/${{ steps.run_script.outputs.current_date }}/경제스크랩.json
 
       - name: Create PR
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "스크랩 및 요약 파일 추가"
-          title: "스크랩 및 요약 파일 추가"
-          body: "스크랩 및 요약 파일 추가"
-          branch: "scrap-and-summarize"
+          commit-message: ${{ steps.run_script.outputs.current_date }} 경제스크랩 JSON 파일 업로드
+          title: ${{ steps.run_script.outputs.current_date }} 뉴스 스크랩
+          body: 뉴스 스크랩 결과 파일을 업로드합니다.
+          branch: ${{ steps.run_script.outputs.current_date }}-경제스크랩
           branch-suffix: timestamp
-          base: "main"
+          base: main
           signoff: false
           delete-branch: true

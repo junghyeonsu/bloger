@@ -2,9 +2,19 @@
   "name": "bloger",
   "private": true,
   "author": "junghyeonsu",
+  "scripts": {
+    "dev": "watchlist packages -- pnpm dev:all",
+    "dev:all": "pnpm ultra -r dev",
+    "build": "pnpm ultra -r build"
+  },
   "devDependencies": {
     "@biomejs/biome": "^1.2.2",
+    "esbuild": "^0.19.4",
     "typescript": "^5.2.2",
-    "ultra-runner": "^3.10.5"
+    "ultra-runner": "^3.10.5",
+    "watchlist": "^0.3.1"
+  },
+  "ultra": {
+    "concurrent": ["build", "dev"]
   }
 }

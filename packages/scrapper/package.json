@@ -1,20 +1,36 @@
 {
   "name": "@bloger/scrapper",
+  "version": "0.0.0",
   "private": true,
   "author": "junghyeonsu",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "chrome-install": "node node_modules/puppeteer/install.mjs",
     "scrap": "ts-node scrap.ts",
-    "upload": "ts-node upload.ts"
+    "upload": "ts-node upload.ts",
+    "build": "pnpm build:dts && pnpm build:js",
+    "build:dts": "pnpm tsc --emitDeclarationOnly",
+    "build:js": "node ./build.mjs",
+    "dev": "node ./dev.mjs && pnpm build:dts --watch"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "main": "dist/index.js",
+  "files": ["dist", "src"],
+  "dependencies": {
+    "ts-node": "^10.9.1",
+    "puppeteer": "^21.3.5"
   },
   "devDependencies": {
     "@types/node": "^20.7.1",
     "tslib": "^2.6.2",
     "typescript": "^5.2.2"
   },
-  "dependencies": {
-    "ts-node": "^10.9.1",
-    "puppeteer": "^21.3.5"
+  "ultra": {
+    "concurrent": ["build", "dev"]
   }
 }

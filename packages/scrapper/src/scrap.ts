@@ -2,7 +2,7 @@ import puppeteer from "puppeteer";
 
 const NAVER_NEWS_URL = "https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1=101";
 
-interface HeadlineNewsContent {
+export interface HeadlineNewsContent {
   title: string;
   link?: string;
   corp: string;
@@ -10,7 +10,7 @@ interface HeadlineNewsContent {
   summary?: string;
 }
 
-export const getHeadlineNewsTextContents = async () => {
+export const scrapNaverEconomyHeadlineNews = async () => {
   const browser = await puppeteer.launch({ headless: "new" });
 
   // 페이지 오픈
