@@ -4,7 +4,7 @@ import fs from "fs";
 import dedent from "dedent";
 import { scrapNaverEconomyHeadlineNews } from "@bloger/scrapper";
 import type { HeadlineNewsContent } from "@bloger/scrapper";
-import { SummarizeClient } from "@bloger/summarizer";
+// import { SummarizeClient } from "@bloger/summarizer";
 // import { TistoryClient } from "@bloger/tistory";
 
 const resultFilename = process.argv[2]; // Get the filename from the command line argument
@@ -13,9 +13,9 @@ if (!process.env.OPENAI_API_KEY) {
   throw new Error("OPENAI_API_KEY is not defined");
 }
 
-const Summarizer = new SummarizeClient({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// const Summarizer = new SummarizeClient({
+//   apiKey: process.env.OPENAI_API_KEY,
+// });
 // const Tistory = new TistoryClient({
 //   apiKey: "",
 // });
@@ -23,12 +23,13 @@ const Summarizer = new SummarizeClient({
 const generateSummaryTemplate = async (news: HeadlineNewsContent): Promise<string> => {
   const { title, link, corp, content, summary } = news;
 
-  const summarizedContent = await Summarizer.summarizeNews({ content });
+  // TODO: 잠시 요약 기능을 끕니다.
+  // const summarizedContent = await Summarizer.summarizeNews({ content });
 
   return dedent(`
     ${title} - ${corp}${summary ? `\n✔ ${summary}` : ""}
     
-    ${summarizedContent}
+    ${content}
     ${link ? `- 뉴스 원본 보러가기: ${link}` : ""}
   `);
 };
@@ -41,7 +42,8 @@ async function main() {
     naverEconomyHeadlineNews,
   };
 
-  fs.writeFileSync(`${resultFilename}-not-summarized.json`, JSON.stringify(content, null, 2));
+  // TODO: 파일 저장 위치 동적으로 변경하기
+  fs.writeFileSync(`../../content/${resultFilename}-not-summarized.json`, JSON.stringify(content, null, 2));
   console.log("스크랩 완료");
 
   /* 요약 */
@@ -52,6 +54,7 @@ async function main() {
     ${summaries.map((summary) => JSON.stringify(summary)).join("\n\n")}
   `;
 
+  // TODO: 파일 저장 위치 동적으로 변경하기
   fs.writeFileSync(`${resultFilename}-summarized.txt`, summarizedContent);
   console.log("요약 완료");
 

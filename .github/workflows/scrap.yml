@@ -31,7 +31,7 @@ jobs:
           run_install: false
 
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install
 
       - name: Build packages
         run: pnpm build
@@ -64,20 +64,15 @@ jobs:
           pnpm --filter @bloger/uploader upload "$current_date"
         shell: bash
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ steps.run_script.outputs.current_date }} 경제스크랩 JSON 파일 업로드
-          path: content/${{ steps.run_script.outputs.current_date }}/경제스크랩.json
-
       - name: Create PR
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: ${{ steps.run_script.outputs.current_date }} 경제스크랩 JSON 파일 업로드
+          commit-message: ${{ steps.run_script.outputs.current_date }} 경제스크랩 파일 업로드
           title: ${{ steps.run_script.outputs.current_date }} 뉴스 스크랩
           body: 뉴스 스크랩 결과 파일을 업로드합니다.
-          branch: ${{ steps.run_script.outputs.current_date }}-경제스크랩
+          branch: ${{ steps.run_script.outputs.current_date }}-economy-scrap
+          branch-suffix: timestamp
           base: main
           signoff: false
           delete-branch: true
