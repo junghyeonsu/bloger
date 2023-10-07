@@ -16,5 +16,6 @@
   },
   "ultra": {
     "concurrent": ["build", "dev"]
-  }
+  },
+  "packageManager": "pnpm@8.8.0"
 }
