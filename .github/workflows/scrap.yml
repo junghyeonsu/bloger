@@ -38,6 +38,12 @@ jobs:
 
       - name: Install Chrome browser
         run: pnpm --filter @bloger/scrapper chrome-install
+
+           # .env 생성
+      - name: create dotenv
+        run: |
+          touch ./services/uploader/.env
+          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> ./services/uploader/.env
           
       - uses: actions/cache@v3
         with:
