@@ -29,48 +29,30 @@ jobs:
         with:
           version: 8
           run_install: false
-  
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
       - name: Install Chrome browser
-        run: |
-          cd packages/scrapper
-          pnpm chrome-install
-
+        run: pnpm --filter @bloger/scrapper chrome-install
+          
       - uses: actions/cache@v3
         with:
           path: packages/scrapper/.cache
           key: ${{ runner.os }}-cache-${{ hashFiles('**/packages/scrapper/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-cache-
+            ${{ runner.os }}-cache-${{ hashFiles('**/packages/scrapper/package-lock.json') }}
 
       - name: Run Node.js script and get result filename
         id: run_script
         run: |
-          # Navigate to the 'services/uploader' directory
-          cd services/uploader
-
           # Generate a date-based filename (e.g., 2023-09-28-경제스크랩)
           current_date="$(date +\%Y-\%m-\%d)"
 
           # Pass the variables as an output
           echo "current_date=$current_date" >> $GITHUB_ENV
 
-          pnpm upload "$current_date" # Pass the filename as an argument
+          pnpm --filter @bloger/uploader upload "$current_date"
         shell: bash
 
       - name: Upload artifacts
