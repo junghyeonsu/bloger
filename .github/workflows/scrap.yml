@@ -59,7 +59,7 @@ jobs:
           current_date="$(date +\%Y-\%m-\%d)"
 
           # Pass the variables as an output
-          echo "current_date=$current_date" >> $GITHUB_ENV
+          echo "current_date=$current_date" >> $GITHUB_OUTPUT
 
           pnpm --filter @bloger/uploader upload "$current_date"
         shell: bash
@@ -78,7 +78,6 @@ jobs:
           title: ${{ steps.run_script.outputs.current_date }} 뉴스 스크랩
           body: 뉴스 스크랩 결과 파일을 업로드합니다.
           branch: ${{ steps.run_script.outputs.current_date }}-경제스크랩
-          branch-suffix: timestamp
           base: main
           signoff: false
           delete-branch: true
