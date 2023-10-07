@@ -43,7 +43,16 @@ async function main() {
   };
 
   // TODO: 파일 저장 위치 동적으로 변경하기
-  fs.writeFileSync(`../../content/${resultFilename}-not-summarized.json`, JSON.stringify(content, null, 2));
+
+  if (!fs.existsSync("../../content")) {
+    fs.mkdirSync("../../content");
+  }
+
+  if (!fs.existsSync(`../../content/${resultFilename}`)) {
+    fs.mkdirSync(`../../content/${resultFilename}`);
+  }
+
+  fs.writeFileSync(`../../content/${resultFilename}/not-summarized.json`, JSON.stringify(content, null, 2));
   console.log("스크랩 완료");
 
   /* 요약 */
@@ -55,7 +64,7 @@ async function main() {
   `;
 
   // TODO: 파일 저장 위치 동적으로 변경하기
-  fs.writeFileSync(`${resultFilename}-summarized.txt`, summarizedContent);
+  fs.writeFileSync(`../../content/${resultFilename}/summarized.txt`, summarizedContent);
   console.log("요약 완료");
 
   /* 업로드 */
