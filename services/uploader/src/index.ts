@@ -52,7 +52,7 @@ async function main() {
     fs.mkdirSync(`../../content/${resultFilename}`);
   }
 
-  fs.writeFileSync(`../../content/${resultFilename}/not-summarized.json`, JSON.stringify(content, null, 2));
+  fs.writeFileSync(`../../content/${resultFilename}/not-summarized.json`, `${JSON.stringify(content, null, 2)}\n`);
   console.log("스크랩 완료");
 
   /* 요약 */
@@ -60,7 +60,7 @@ async function main() {
   const summarizedContent = dedent`
     ${new Date().toLocaleString()} 기준 네이버 경제 뉴스 요약본입니다.
 
-    ${summaries.map((summary) => JSON.stringify(summary)).join("\n\n")}
+    ${summaries.map((summary) => JSON.stringify(summary)).join("\n\n")}\n
   `;
 
   // TODO: 파일 저장 위치 동적으로 변경하기
