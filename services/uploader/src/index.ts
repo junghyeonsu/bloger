@@ -52,7 +52,7 @@ async function main() {
     fs.mkdirSync(`../../content/${resultFilename}`);
   }
 
-  fs.writeFileSync(`../../content/${resultFilename}/not-summarized.json`, `${JSON.stringify(content, null, 2)}\n`);
+  fs.writeFileSync(`../../content/${resultFilename}/data.json`, `${JSON.stringify(content, null, 2)}\n`);
   console.log("스크랩 완료");
 
   /* 요약 */
@@ -64,7 +64,7 @@ async function main() {
   `;
 
   // TODO: 파일 저장 위치 동적으로 변경하기
-  fs.writeFileSync(`../../content/${resultFilename}/summarized.txt`, summarizedContent);
+  fs.writeFileSync(`../../content/${resultFilename}/content.md`, summarizedContent);
   console.log("요약 완료");
 
   /* 업로드 */

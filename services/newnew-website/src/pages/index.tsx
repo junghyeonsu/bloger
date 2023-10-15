@@ -1,28 +1,35 @@
+import { Header } from "@/components/header";
+import { Link, graphql, type HeadFC, type PageProps } from "gatsby";
 import * as React from "react";
-import type { HeadFC, PageProps } from "gatsby";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 
-const IndexPage: React.FC<PageProps> = () => {
+import { Card, CardTitle } from "@/components/ui/card";
+
+export const query = graphql`
+  query IndexPage {
+    allPosts: allMdx {
+      nodes {
+        id
+      }
+    }
+  }
+`;
+
+const IndexPage: React.FC<PageProps<Queries.IndexPageQuery>> = ({ data }) => {
   return (
-    <main className="md:flex bg-slate-100">
-      hello
-      <Button variant="outline" size="lg">
-        ddkdk
-      </Button>
-      <div className="items-top flex space-x-2">
-        <Checkbox id="terms1" />
-        <div className="grid gap-1.5 leading-none">
-          <label
-            htmlFor="terms1"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-          >
-            Accept terms and conditions
-          </label>
-          <p className="text-sm text-muted-foreground">You agree to our Terms of Service and Privacy Policy.</p>
+    <>
+      <Header />
+      <main className="md:flex bg-slate-100">
+        <div className="flex-col">
+          {data.allPosts.nodes.map((node) => (
+            <Link key={node.id} to={`/posts/${node.id}`}>
+              <Card className="m-3 p-3">
+                <CardTitle>Post {node.id}</CardTitle>
+              </Card>
+            </Link>
+          ))}
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 };
 
