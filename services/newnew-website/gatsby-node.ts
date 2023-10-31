@@ -16,8 +16,9 @@ export const onCreateWebpackConfig: GatsbyNode["onCreateWebpackConfig"] = ({ act
 export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions: { createPage } }) => {
   const result = await graphql<Queries.CreatePagesQuery>(`
     query CreatePages {
-      allPosts: allMdx {
+      allNewsJson {
         nodes {
+          slug
           id
         }
       }
@@ -29,8 +30,8 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions:
   const postPageTemplate = path.resolve(__dirname, "src/templates/PostPageTemplate.tsx");
 
   // 모든 포스트 페이지 생성
-  result?.data?.allPosts.nodes.forEach((node) => {
-    const path = `/posts/${node.id}`;
+  result?.data?.allNewsJson.nodes.forEach((node) => {
+    const path = `/news/${node.slug}`;
 
     createPage({
       path,

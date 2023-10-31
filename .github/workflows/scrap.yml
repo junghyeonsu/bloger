@@ -55,8 +55,8 @@ jobs:
       - name: Run Node.js script and get result filename
         id: run_script
         run: |
-          # Generate a date-based filename (e.g., 2023-09-28-경제스크랩)
-          current_date="$(date +\%Y-\%m-\%d)"
+          # Generate a date-based filename (e.g., 20230928)
+          current_date="$(date +'%Y%m%d')"
 
           # Pass the variables as an output
           echo "current_date=$current_date" >> $GITHUB_OUTPUT

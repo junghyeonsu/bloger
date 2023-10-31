@@ -7,8 +7,15 @@ import { Card, CardContent, CardTitle } from "@/components/ui/card";
 
 export const query = graphql`
   query PostPage($id: String!) {
-    post: mdx(id: { eq: $id }) {
-      body
+    news: newsJson(id: { eq: $id }) {
+      date
+      naverEconomyHeadlineNews {
+        title
+        summary
+        link
+        corp
+        content
+      }
     }
   }
 `;
@@ -22,9 +29,18 @@ const PostTemplate: React.FC<PostTemplateProps> = ({ data }) => {
     <>
       <Header />
       <main>
-        <Card>
-          <CardTitle className="p-4 font-bold text-xl">Post</CardTitle>
-          <CardContent className="p-4">{data.post?.body}</CardContent>
+        <Card className="break-words">
+          <CardTitle className="p-4 font-bold text-3xl">{data?.news?.date} 네이버 경제 헤드라인 뉴스</CardTitle>
+          {data?.news?.naverEconomyHeadlineNews?.map((node) => (
+            <CardContent key={node?.title} className="p-4">
+              <div className="text-xl font-bold">
+                {node?.title} - {node?.corp}
+              </div>
+              <div>{node?.summary}</div>
+              {/* biome-ignore lint/style/noNonNullAssertion: <explanation> */}
+              <a href={node?.link!}>뉴스 보러가기</a>
+            </CardContent>
+          ))}
         </Card>
       </main>
     </>

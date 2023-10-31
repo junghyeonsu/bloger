@@ -6,9 +6,10 @@ import { Card, CardTitle } from "@/components/ui/card";
 
 export const query = graphql`
   query IndexPage {
-    allPosts: allMdx {
+    allNews: allNewsJson {
       nodes {
-        id
+        date
+        slug
       }
     }
   }
@@ -19,11 +20,12 @@ const IndexPage: React.FC<PageProps<Queries.IndexPageQuery>> = ({ data }) => {
     <>
       <Header />
       <main className="md:flex bg-slate-100">
+        <p className="p-4 font-bold text-xl">내가 경제 공부하려고 만든 사이트</p>
         <div className="flex-col">
-          {data.allPosts.nodes.map((node) => (
-            <Link key={node.id} to={`/posts/${node.id}`}>
+          {data.allNews.nodes.map((node) => (
+            <Link key={node.slug} to={`/news/${node.slug}`}>
               <Card className="m-3 p-3">
-                <CardTitle>Post {node.id}</CardTitle>
+                <CardTitle>{node.date}</CardTitle>
               </Card>
             </Link>
           ))}
@@ -35,4 +37,4 @@ const IndexPage: React.FC<PageProps<Queries.IndexPageQuery>> = ({ data }) => {
 
 export default IndexPage;
 
-export const Head: HeadFC = () => <title>Home Page</title>;
+export const Head: HeadFC = () => <title>뉴뉴</title>;

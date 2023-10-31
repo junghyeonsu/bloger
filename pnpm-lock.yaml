@@ -124,6 +124,9 @@ importers:
       gatsby-source-filesystem:
         specifier: ^5.12.0
         version: 5.12.0(gatsby@5.12.5)
+      gatsby-transformer-json:
+        specifier: ^5.12.0
+        version: 5.12.0(gatsby@5.12.5)
       gatsby-transformer-sharp:
         specifier: ^5.12.0
         version: 5.12.0(gatsby-plugin-sharp@5.12.0)(gatsby@5.12.5)(graphql@16.8.1)
@@ -8012,6 +8015,17 @@ packages:
       node-fetch: 2.7.0
     transitivePeerDependencies:
       - encoding
+    dev: false
+
+  /gatsby-transformer-json@5.12.0(gatsby@5.12.5):
+    resolution: {integrity: sha512-Fx+SGHgxd96z7se9tocdJ6/0D3QL6aqqYf0w+UO6eoinECkiYT1vCfeG+/1Kl6D12t/N89s+YcWJGzZlt/pqug==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      gatsby: ^5.0.0-next
+    dependencies:
+      '@babel/runtime': 7.23.1
+      bluebird: 3.7.2
+      gatsby: 5.12.5(babel-eslint@10.1.0)(esbuild@0.19.4)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)
     dev: false
 
   /gatsby-transformer-sharp@5.12.0(gatsby-plugin-sharp@5.12.0)(gatsby@5.12.5)(graphql@16.8.1):

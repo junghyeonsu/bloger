@@ -53,6 +53,20 @@ const config: GatsbyConfig = {
       },
       __key: "news",
     },
+    {
+      resolve: "gatsby-transformer-json",
+      options: {
+        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+        typeName: ({ node }: any) => {
+          // d20230101/news.json
+          if (node.base === "news.json") {
+            return "newsJson";
+          }
+
+          return "Json";
+        },
+      },
+    },
   ],
 };
 
