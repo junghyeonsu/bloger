@@ -115,7 +115,7 @@ async function main() {
   const tistoryResult = await Tistory.postWrite({
     title: `${content.date} 경제 뉴스 요약`,
     content: summarizedContent,
-    visibility: 0,
+    visibility: 3,
 
     output: "json",
 
