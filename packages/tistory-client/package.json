@@ -1,12 +1,10 @@
 {
-  "name": "@bloger/scrapper",
+  "name": "@bloger/tistory-client",
   "version": "0.0.0",
   "private": true,
   "author": "junghyeonsu",
+  "main": "index.js",
   "scripts": {
-    "chrome-install": "node node_modules/puppeteer/install.mjs",
-    "scrap": "pnpm ts-node ./src/scrap.ts",
-    "upload": "ts-node upload.ts",
     "build": "pnpm build:dts && pnpm build:js",
     "build:dts": "pnpm tsc --emitDeclarationOnly",
     "build:js": "node ./build.mjs",
@@ -19,18 +17,10 @@
       "import": "./dist/index.mjs"
     }
   },
-  "main": "dist/index.js",
-  "files": ["dist", "src"],
-  "dependencies": {
-    "ts-node": "^10.9.1",
-    "puppeteer": "^21.3.5"
-  },
+  "keywords": [],
+  "license": "ISC",
   "devDependencies": {
-    "@types/node": "^20.7.1",
-    "tslib": "^2.6.2",
+    "esbuild": "^0.19.4",
     "typescript": "^5.2.2"
-  },
-  "ultra": {
-    "concurrent": ["build", "dev"]
   }
 }

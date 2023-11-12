@@ -44,6 +44,7 @@ jobs:
         run: |
           touch ./services/uploader/.env
           echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> ./services/uploader/.env
+          echo "TISTORY_ACCESS_TOKEN=${{ secrets.TISTORY_ACCESS_TOKEN }}" >> ./services/uploader/.env
           
       - uses: actions/cache@v3
         with:
@@ -56,7 +57,8 @@ jobs:
         id: run_script
         run: |
           # Generate a date-based filename (e.g., 20230928)
-          current_date="$(date +'%Y%m%d')"
+          # 요기서 9시간을 더해줘야 한국시간이 나온다.
+          current_date="$(TZ=Asia/Seoul date +'%Y%m%d')"
 
           # Pass the variables as an output
           echo "current_date=$current_date" >> $GITHUB_OUTPUT

@@ -68,6 +68,15 @@ importers:
         specifier: ^5.2.2
         version: 5.2.2
 
+  packages/tistory-client:
+    devDependencies:
+      esbuild:
+        specifier: ^0.19.4
+        version: 0.19.4
+      typescript:
+        specifier: ^5.2.2
+        version: 5.2.2
+
   services/newnew-website:
     dependencies:
       '@mdx-js/react':
@@ -176,6 +185,12 @@ importers:
       '@bloger/summarizer':
         specifier: workspace:^0.0.0
         version: link:../../packages/summarizer
+      '@bloger/tistory-client':
+        specifier: workspace:^
+        version: link:../../packages/tistory-client
+      common-tags:
+        specifier: ^1.8.2
+        version: 1.8.2
       dedent:
         specifier: ^1.5.1
         version: 1.5.1
@@ -189,6 +204,9 @@ importers:
         specifier: ^3.13.0
         version: 3.13.0
     devDependencies:
+      '@types/common-tags':
+        specifier: ^1.8.4
+        version: 1.8.4
       '@types/node':
         specifier: ^20.7.1
         version: 20.8.2
@@ -3865,6 +3883,10 @@ packages:
   /@types/common-tags@1.8.2:
     resolution: {integrity: sha512-Z5UcOnlqxFm0tCCTEhkcVOfSihWOMyKypIWHtQNSYh6fMdPUIVpNdLBYutDpDXVHsMUrYzI2IczUHXIzpUovmQ==}
     dev: false
+
+  /@types/common-tags@1.8.4:
+    resolution: {integrity: sha512-S+1hLDJPjWNDhcGxsxEbepzaxWqURP/o+3cP4aa2w7yBXgdcmKGQtZzP8JbyfOd0m+33nh+8+kvxYE2UJtBDkg==}
+    dev: true
 
   /@types/configstore@2.1.1:
     resolution: {integrity: sha512-YY+hm3afkDHeSM2rsFXxeZtu0garnusBWNG1+7MknmDWQHqcH2w21/xOU9arJUi8ch4qyFklidANLCu3ihhVwQ==}
