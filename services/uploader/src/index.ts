@@ -80,29 +80,32 @@ async function main() {
   const summarizedContent = html`
     <div>
       <h2>${content.date} 네이버 경제 뉴스 요약본입니다.</h2>
+      <br />
       
       <div>
         ${naverEconomyHeadlineNewsWithSummary
           .map((news, index) => {
             const { title, link, corp, summary, aiSummary } = news;
+            const regex = /<strong(.*?)<\/strong>/g;
+            const replacedAiSummary = aiSummary?.replace(regex, "");
 
             if (aiSummary) {
               return html`
               <div>
-                <h3>${index + 1}.${title}</h3>
-                <p>${aiSummary}</p>
+                <h3>📌 ${index + 1}. ${title}</h3>
+                <p>${replacedAiSummary}</p>
                 <br />
-                <p href="${link}" _target="blank">뉴스 원본 보러가기 (${corp})</p>
+                <a href="${link}" _target="blank">뉴스 원본 보러가기 (${corp})</a>
               </div>
             `;
             }
 
             return html`
             <div>
-              <h3>${index + 1}.${title}</h3>
+              <h3>📌 ${index + 1}. ${title}</h3>
               <p>${summary}</p>
               <br />
-              <p href="${link}" _target="blank">뉴스 원본 보러가기 (${corp})</p>
+              <a href="${link}" _target="blank">뉴스 원본 보러가기 (${corp})</a>
             </div>
           `;
           })

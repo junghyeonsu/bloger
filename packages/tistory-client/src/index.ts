@@ -118,7 +118,7 @@ class TistoryClient {
       }),
     });
 
-    console.log(response);
+    console.log("[TistoryClient] response: ", response);
   }
 }
 

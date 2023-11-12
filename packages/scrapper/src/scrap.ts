@@ -47,7 +47,8 @@ export const scrapNaverEconomyHeadlineNews = async () => {
         await newsPage.waitForResponse((response) => response.url().includes("summary"));
         await newsPage.waitForSelector(".media_end_head_autosummary_layer_tit");
         const contentBody = await newsPage.$("._SUMMARY_CONTENT_BODY");
-        aiSummaryContent = await contentBody?.evaluate((node) => node.textContent);
+        const contentInnerHTML = await contentBody?.evaluate((node) => node.innerHTML);
+        aiSummaryContent = contentInnerHTML;
       }
 
       // 뉴스 본문 가져오기
