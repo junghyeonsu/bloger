@@ -58,7 +58,8 @@ jobs:
         run: |
           # Generate a date-based filename (e.g., 20230928)
           # 요기서 9시간을 더해줘야 한국시간이 나온다.
-          current_date="$(date +'%Y%m%d' -d '+9 hour')"
+          # current_date="$(date +'%Y%m%d' -d '+9 hour')"
+          current_date="$(date +'%Y%m%d')"
 
           # Pass the variables as an output
           echo "current_date=$current_date" >> $GITHUB_OUTPUT
