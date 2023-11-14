@@ -2,10 +2,10 @@ name: Run Node.js Script and Create PR
 
 on:
   push:
-    branches:
-      - main
-  # schedule:
-    # - cron: 0 23 * * *
+    # branches:
+      # - main
+  schedule:
+    - cron: 0 23 * * *
 
 permissions:
   contents: write
@@ -16,31 +16,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: 레파지토리 Checkout 하기
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Node.js 설치하기
         uses: actions/setup-node@v3
         with:
           node-version: 20
 
       - uses: pnpm/action-setup@v2
-        name: Install pnpm
+        name: pnpm 설치하기
         with:
           version: 8.8.0
           run_install: false
 
-      - name: Install dependencies
+      - name: 의존성 설치하기
         run: pnpm install --frozen-lockfile
 
-      - name: Build packages
+      - name: packages들 빌드하기
         run: pnpm build
 
-      - name: Install Chrome browser
+      - name: Chrome browser 설차하기
         run: pnpm --filter @bloger/scrapper chrome-install
 
            # .env 생성
-      - name: create dotenv
+      - name: .env 파일 생성
         run: |
           touch ./services/uploader/.env
           echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> ./services/uploader/.env
@@ -53,7 +53,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cache-${{ hashFiles('**/packages/scrapper/package-lock.json') }}
 
-      - name: Run Node.js script and get result filename
+      - name: bloger/uploader upload하고 티스토리에 업로드하기
         id: run_script
         run: |
           # Generate a date-based filename (e.g., 20230928)
@@ -66,7 +66,7 @@ jobs:
           pnpm --filter @bloger/uploader upload "$current_date"
         shell: bash
 
-      - name: Create PR
+      - name: PR 생성하기
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
