@@ -31,7 +31,6 @@ export const scrapNaverEconomyHeadlineNews = async () => {
   const headlineNewsContents: HeadlineNewsContent[] = [];
 
   for (const headlineNewsTextContainer of headlineNewsTextContainers) {
-    let aiSummaryContent;
     const title = await headlineNewsTextContainer.$eval("a", (a) => a.textContent);
     const link = await headlineNewsTextContainer.$eval("a", (a) => a.getAttribute("href"));
     const corp = await headlineNewsTextContainer.$eval(".sh_text_info > div", (div) => div.textContent);
@@ -53,15 +52,33 @@ export const scrapNaverEconomyHeadlineNews = async () => {
     await newsPage.goto(link);
     await newsPage.waitForNetworkIdle();
 
-    const aiSummaryButtonSelector = ".media_end_head_autosummary_button";
-    if (await newsPage.$(aiSummaryButtonSelector)) {
-      await newsPage.click(aiSummaryButtonSelector).then(() => console.log("클릭"));
-      await newsPage.waitForResponse((response) => response.url().includes("summary"));
-      await newsPage.waitForSelector(".media_end_head_autosummary_layer_tit");
-      const contentBody = await newsPage.$("._SUMMARY_CONTENT_BODY");
-      const contentInnerHTML = await contentBody?.evaluate((node) => node.innerHTML);
-      aiSummaryContent = contentInnerHTML;
-    }
+    const url = new URL(link);
+    console.log("url: ", url.toString());
+    const replacedPathname = url.pathname.replace("/mnews", "");
+    const summaryFetchURL = new URL(`https://tts.news.naver.com${replacedPathname}/summary?JSON`);
+    const summaryResponse = await fetch(summaryFetchURL.toString(), {
+      method: "GET",
+    });
+    console.log("summaryFetchURL: ", summaryFetchURL.toString());
+    const aiSummaryJson = (await summaryResponse.json()) as {
+      status_code: number;
+      error_msg: string;
+      result_code: number;
+      title: string;
+      summary: string;
+    };
+
+    // AI 요약 가져오기 (legacy)
+    // let aiSummaryContent;
+    // const aiSummaryButtonSelector = ".media_end_head_autosummary_button";
+    // if (await newsPage.$(aiSummaryButtonSelector)) {
+    //   await newsPage.click(aiSummaryButtonSelector).then(() => console.log("클릭"));
+    //   await newsPage.waitForResponse((response) => response.url().includes("summary"));
+    //   await newsPage.waitForSelector(".media_end_head_autosummary_layer_tit");
+    //   const contentBody = await newsPage.$("._SUMMARY_CONTENT_BODY");
+    //   const contentInnerHTML = await contentBody?.evaluate((node) => node.innerHTML);
+    //   aiSummaryContent = contentInnerHTML;
+    // }
 
     // 뉴스 본문 가져오기
     const article = await newsPage.$("#dic_area");
@@ -78,7 +95,7 @@ export const scrapNaverEconomyHeadlineNews = async () => {
         corp,
         content: cleanContent as string,
         summary: undefined,
-        aiSummary: aiSummaryContent,
+        aiSummary: aiSummaryJson.summary,
       });
       continue;
     }
@@ -93,10 +110,11 @@ export const scrapNaverEconomyHeadlineNews = async () => {
       corp,
       content: cleanContent as string,
       summary: summaryContent as string,
-      aiSummary: aiSummaryContent,
+      aiSummary: aiSummaryJson.summary,
     });
   }
 
+  // NOTE: 한꺼번에 작업하는 것
   // const headlineNewsContents = await Promise.all(
   //   headlineNewsTextContainers.map(async (headlineNewsTextContainer) => {
   //     const title = await headlineNewsTextContainer.$eval("a", (a) => a.textContent);
@@ -145,3 +163,8 @@ export const scrapNaverEconomyHeadlineNews = async () => {
 
   return headlineNewsContents as HeadlineNewsContent[];
 };
+
+// (async () => {
+//   const result = await scrapNaverEconomyHeadlineNews();
+//   console.log(result);
+// })();
