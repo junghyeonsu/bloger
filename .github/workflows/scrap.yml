@@ -1,4 +1,4 @@
-name: Run Node.js Script and Create PR
+name: 네이버 경제 스크랩하고 티스토리에 업로드하고 PR 생성하기
 
 on:
   push:
