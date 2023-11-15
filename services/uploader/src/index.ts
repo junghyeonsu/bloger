@@ -17,7 +17,9 @@ const Tistory = new TistoryClient({
 });
 
 function getCurrentKoreaDate() {
+  // 9시간 더해주기
   const today = new Date();
+  today.setHours(today.getHours() + 9);
 
   const dateString = today.toLocaleDateString("ko-KR", {
     year: "numeric",
@@ -29,21 +31,6 @@ function getCurrentKoreaDate() {
   });
 
   return `${dateString} ${dayName}`;
-}
-
-function getCurrentStringDate() {
-  const today = new Date();
-  const year = today.toLocaleDateString("en-US", {
-    year: "numeric",
-  });
-  const month = today.toLocaleDateString("en-US", {
-    month: "2-digit",
-  });
-  const day = today.toLocaleDateString("en-US", {
-    day: "2-digit",
-  });
-
-  return `${year}${month}${day}`;
 }
 
 async function main() {
@@ -58,7 +45,7 @@ async function main() {
   );
 
   const content = {
-    slug: getCurrentStringDate(),
+    slug: resultFilename,
     date: getCurrentKoreaDate(),
     naverEconomyHeadlineNews: naverEconomyHeadlineNewsWithSummary,
   };
