@@ -1,11 +1,11 @@
 name: 네이버 경제 스크랩하고 티스토리에 업로드하고 PR 생성하기
 
 on:
-  # push:
-    # branches:
-      # - main
-  schedule:
-    - cron: 0 23 * * *
+  push:
+    branches:
+      - main
+  # schedule:
+  #   - cron: 0 23 * * *
 
 permissions:
   contents: write
