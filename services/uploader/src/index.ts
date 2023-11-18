@@ -3,7 +3,7 @@ import "dotenv/config";
 import fs from "fs";
 import { html } from "common-tags";
 import { scrapNaverEconomyHeadlineNews } from "@bloger/scrapper";
-import { TistoryClient } from "@bloger/tistory-client";
+// import { TistoryClient } from "@bloger/tistory-client";
 
 const resultFilename = process.argv[2]; // Get the filename from the command line argument
 
@@ -11,10 +11,10 @@ if (!process.env.OPENAI_API_KEY) {
   throw new Error("OPENAI_API_KEY is not defined");
 }
 
-const Tistory = new TistoryClient({
-  access_token: process.env.TISTORY_ACCESS_TOKEN,
-  blog_name: "evenew",
-});
+// const Tistory = new TistoryClient({
+//   access_token: process.env.TISTORY_ACCESS_TOKEN,
+//   blog_name: "evenew",
+// });
 
 function getCurrentKoreaDate() {
   // 9시간 더해주기
@@ -101,19 +101,22 @@ async function main() {
     </div>
   `;
 
+  fs.writeFileSync(`../../content/d${resultFilename}/news.html`, `${summarizedContent}\n`);
+
+  // NOTE: Tistory API가 막혀버림...
   /* 업로드 */
-  const tistoryResult = await Tistory.postWrite({
-    title: `${content.date} 경제 뉴스 요약`,
-    content: summarizedContent,
-    visibility: 3,
+  // const tistoryResult = await Tistory.postWrite({
+  //   title: `${content.date} 경제 뉴스 요약`,
+  //   content: summarizedContent,
+  //   visibility: 3,
 
-    output: "json",
+  //   output: "json",
 
-    // 매일매일뉴스뉴스
-    category: 1170104,
-  });
+  //   // 매일매일뉴스뉴스
+  //   category: 1170104,
+  // });
 
-  console.log("tistoryResult", tistoryResult);
+  //   console.log("tistoryResult", tistoryResult);
 }
 
 main();
